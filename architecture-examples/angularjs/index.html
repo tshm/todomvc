@@ -9,11 +9,7 @@
 	<script src="../../assets/ie.js"></script>
 	<![endif]-->
 </head>
-<body ng-controller="TodoController">
-	<div>
-	{{ todos }}
-	{{ displayFilter }}
-	</div>
+<body ng-controller="TodoController" ng-cloak>
 	<section id="todoapp">
 		<header id="header">
 			<h1>todos</h1>
@@ -44,7 +40,11 @@
 		<!-- This footer should hidden by default and shown when there are todos -->
 		<footer id="footer">
 			<!-- This should be `0 items left` by default -->
-			<span id="todo-count"><strong>{{ todos.length }}</strong> item left</span>
+			<span id="todo-count"><strong>{{ todos.length }}</strong>
+				<span ng-pluralize
+					count="todos.length"
+					when="{'one': 'item', 'other': 'items'}"></span>
+				left</span>
 			<!-- Remove this if you don't implement routing -->
 			<ul id="filters">
 				<li>
@@ -65,7 +65,7 @@
 		<p>Double-click to edit a todo</p>
 		<p>Template by <a href="http://github.com/sindresorhus">Sindre Sorhus</a></p>
 		<!-- Change this out with your name and url ↓ -->
-		<p>Created by <a href="http://todomvc.com">you</a></p>
+		<p>Created by <a href="http://github.com/tshm">Tosh Shimayama</a></p>
 		<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 	</footer>
 	<!-- Scripts here. Don't remove this ↓ -->
