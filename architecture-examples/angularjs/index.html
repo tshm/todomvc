@@ -18,11 +18,10 @@
 			</form>
 		</header>
 		<!-- This section should be hidden by default and shown when there are todos -->
-		<section id="main">
+		<section id="main" ng-show="todos.length">
 			<input id="toggle-all" type="checkbox" ng-checked="allCompleted()" ng-click="toggleCompletion()">
 			<label for="toggle-all">Mark all as complete</label>
 			<ul id="todo-list">
-				<!-- These are here just to show the structure of the list items -->
 				<!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
 				<li ng-repeat="todo in todos | filter:displayFilter"
 					ng-class="{'completed': todo.completed, 'editing': todo.editing}">
@@ -38,14 +37,13 @@
 			</ul>
 		</section>
 		<!-- This footer should hidden by default and shown when there are todos -->
-		<footer id="footer">
+		<footer id="footer" ng-show="todos.length">
 			<!-- This should be `0 items left` by default -->
 			<span id="todo-count"><strong>{{ todos.length }}</strong>
 				<span ng-pluralize
 					count="todos.length"
 					when="{'one': 'item', 'other': 'items'}"></span>
 				left</span>
-			<!-- Remove this if you don't implement routing -->
 			<ul id="filters">
 				<li>
 					<a ng-class="{selected: !displayFilter}" href="#/">All</a>
@@ -64,11 +62,9 @@
 	<footer id="info">
 		<p>Double-click to edit a todo</p>
 		<p>Template by <a href="http://github.com/sindresorhus">Sindre Sorhus</a></p>
-		<!-- Change this out with your name and url ↓ -->
 		<p>Created by <a href="http://github.com/tshm">Tosh Shimayama</a></p>
 		<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
 	</footer>
-	<!-- Scripts here. Don't remove this ↓ -->
 	<script src="../../assets/base.js"></script>
 	<script src="js/lib/angular-1.0.0rc8.js"></script>
 	<script src="js/app.js"></script>
