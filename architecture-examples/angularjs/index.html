@@ -55,7 +55,7 @@
 					<a ng-class="{selected: displayFilter.completed}" href="#/completed">Completed</a>
 				</li>
 			</ul>
-			<button id="clear-completed" ng-click="clearCompleted()">Clear completed
+			<button id="clear-completed" ng-click="clearCompleted()" ng-show="remainingCount()">Clear completed
 				({{ remainingCount() }})</button>
 		</footer>
 	</section>
