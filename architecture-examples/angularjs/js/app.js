@@ -22,7 +22,7 @@
 					$defer(function() {
 						elem[0].focus();
 						elem[0].select();
-					}, 100 );
+					}, 0 );
 				}
 			});
 		};
