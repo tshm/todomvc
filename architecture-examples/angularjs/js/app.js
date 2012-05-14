@@ -10,7 +10,7 @@
 		var ENTER_KEY = 13;
 		return function( scope, elem, attrs ) {
 			var runCommit = function() {
-				scope.$apply(attrs['todoCommit']);
+				scope.$apply(attrs.todoCommit);
 			};
 			elem.bind('blur', runCommit );
 			elem.bind('keydown', function( event ) {
@@ -24,7 +24,7 @@
 	/** custom directive to handle autofocus & select */
 	module.directive('todoFocus', function( $defer ) {
 		return function( scope, elem, attrs ) {
-			scope.$watch( attrs['todoFocus'], function( newval ) {
+			scope.$watch( attrs.todoFocus, function( newval ) {
 				if ( newval ) {
 					$defer(function() {
 						elem[0].focus();
@@ -37,15 +37,15 @@
 
 	/** angular todo application controller */
 	var TodoController = function( $scope, $filter, $location ) {
-		var appname = 'angularTodo';
+		var storageKey = 'todos-angularjs';
 
 		// persist todo items in localStorage.
 		var persist = function() {
-			localStorage[appname] = angular.toJson($scope.todos);
+			localStorage[storageKey] = angular.toJson($scope.todos);
 		};
 
 		// load array of todo items
-		$scope.todos = angular.fromJson(localStorage[appname]) || [];
+		$scope.todos = angular.fromJson(localStorage[storageKey]) || [];
 
 		// routing handler: active/completed todo filtering
 		$scope.$location = $location;
