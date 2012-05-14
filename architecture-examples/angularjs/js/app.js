@@ -35,10 +35,17 @@
 		};
 	});
 
-	/** angular controller */
+	/** angular todo application controller */
 	var TodoController = function( $scope, $filter, $location ) {
-		// array of todo items
-		$scope.todos = [];
+		var appname = 'angularTodo';
+
+		// persist todo items in localStorage.
+		var persist = function() {
+			localStorage[appname] = angular.toJson($scope.todos);
+		};
+
+		// load array of todo items
+		$scope.todos = angular.fromJson(localStorage[appname]) || [];
 
 		// routing handler: active/completed todo filtering
 		$scope.$location = $location;
@@ -57,6 +64,7 @@
 				completed: false
 			});
 			$scope.newItem = '';
+			persist();
 		};
 
 		$scope.updateTodo = function( index ) {
@@ -66,10 +74,12 @@
 			} else {
 				delete $scope.todos[index].editing;
 			}
+			persist();
 		};
 
 		$scope.deleteTodo = function( index ) {
 			$scope.todos.splice( index, 1 );
+			persist();
 		};
 
 		var filterTodo = function(completed) {
@@ -84,6 +94,7 @@
 
 		$scope.clearCompleted = function() {
 			$scope.todos = filterTodo( false );
+			persist();
 		};
 		
 		$scope.allCompleted = function() {
@@ -96,6 +107,7 @@
 			angular.forEach( $scope.todos, function( todo ) {
 				todo.completed = newval;
 			});
+			persist();
 		};
 
 	};
