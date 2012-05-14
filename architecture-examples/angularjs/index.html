@@ -26,11 +26,13 @@
 				<li ng-repeat="todo in todos | filter:displayFilter"
 					ng-class="{'completed': todo.completed, 'editing': todo.editing}">
 					<div class="view" ng-dblclick="todo.editing = true">
-						<input class="toggle" type="checkbox" ng-model="todo.completed" checked>
+						<input class="toggle" type="checkbox" ng-model="todo.completed" ng-change="updateTodo($index)">
 						<label>{{ todo.name }}</label>
 						<button class="destroy" ng-click="deleteTodo($index)"></button>
 					</div>
-					<input class="edit" todo-commit="updateTodo($index)" todo-focus="todo.editing" ng-model="todo.name">
+					<form ng-submit="updateTodo($index)">
+						<input class="edit" todo-blur="updateTodo($index)" todo-focus="todo.editing" ng-model="todo.name">
+					</form>
 				</li>
 			</ul>
 		</section>

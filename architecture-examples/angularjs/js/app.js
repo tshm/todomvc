@@ -6,17 +6,10 @@
 	var module = angular.module('TodoApp', []);
 
 	/** custom directive for blur/keydown event handling */
-	module.directive('todoCommit', function() {
-		var ENTER_KEY = 13;
+	module.directive('todoBlur', function() {
 		return function( scope, elem, attrs ) {
-			var runCommit = function() {
-				scope.$apply(attrs.todoCommit);
-			};
-			elem.bind('blur', runCommit );
-			elem.bind('keydown', function( event ) {
-				if ( event.which === ENTER_KEY ) {
-					runCommit();
-				}
+			elem.bind('blur', function() {
+				scope.$apply( attrs.todoCommit );
 			});
 		};
 	});
