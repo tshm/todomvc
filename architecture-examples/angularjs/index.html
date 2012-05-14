@@ -33,10 +33,7 @@
 						<label>{{ todo.name }}</label>
 						<button class="destroy" ng-click="destroyTodo($index)"></button>
 					</div>
-					<input class="editxx" todo-commit="rename($index)" ng-model-instant ng-model="todo.name" autofocus>
-					<!--
 					<input class="edit" todo-commit="rename($index)" todo-focus="todo.editing" ng-model="todo.name">
-					-->
 				</li>
 			</ul>
 		</section>

@@ -9,34 +9,28 @@
 	module.directive('todoCommit', function() {
 		var ENTER_KEY = 13;
 		return function( scope, elem, attrs ) {
-			var runCommit = function(event) {
+			var runCommit = function() {
 				scope.$apply(attrs['todoCommit']);
-				event.stopPropagation();
 			};
 			elem.bind('blur', runCommit );
 			elem.bind('keydown', function( event ) {
 				if ( event.which === ENTER_KEY ) {
-					runCommit(event);
+					runCommit();
 				}
 			});
-			/*
-			scope.$on('activate', function() {
-				scope.todo.editing = true;
-				elem[0].focus();
-				elem[0].select();
-				console.log(['activate triggered', elem, scope]);
-			});
-			*/
 		};
 	});
 
-	/** custom directive to handle select on focus */
-	module.directive('todoFocus', function() {
+	/** custom directive to handle autofocus & select */
+	module.directive('todoFocus', function( $defer ) {
 		return function( scope, elem, attrs ) {
-			scope.$watch(attrs['todoFocus'], function(newval) {
-				console.log(typeof newval);
-				console.log(['focus', elem, arguments]);
-				//if (newval) { elem[0].focus(); elem[0].select(); }
+			scope.$watch( attrs['todoFocus'], function( newval ) {
+				if ( newval ) {
+					$defer(function() {
+						elem[0].focus();
+						elem[0].select();
+					}, 100 );
+				}
 			});
 		};
 	});
