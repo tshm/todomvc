@@ -10,13 +10,13 @@
 	<![endif]-->
 </head>
 <body ng-controller="TodoController" ng-cloak>
-	<ol ng-show="true" ng-init="todos = [{name: 'aaa'}, {name: 'bbb'}, {name:'ccc'}]">
+	<ol ng-show="true" ng-init="todos = [{name: 'aaa', completed: false}, {name: 'bbb', completed: true}, {name:'ccc', completed: false}]">
 		<li ng-repeat="todo in todos">{{ todo }}</li>
 	</ol>
 	<section id="todoapp">
 		<header id="header">
 			<h1>todos</h1>
-			<form ng-submit="addTodo()" >
+			<form ng-submit="createTodo()" >
 				<input id="new-todo" ng-model="newItem" placeholder="What needs to be done?" autofocus>
 			</form>
 		</header>
@@ -31,9 +31,9 @@
 					<div class="view" ng-dblclick="todo.editing = true">
 						<input class="toggle" type="checkbox" ng-model="todo.completed" checked>
 						<label>{{ todo.name }}</label>
-						<button class="destroy" ng-click="destroyTodo($index)"></button>
+						<button class="destroy" ng-click="deleteTodo($index)"></button>
 					</div>
-					<input class="edit" todo-commit="rename($index)" todo-focus="todo.editing" ng-model="todo.name">
+					<input class="edit" todo-commit="updateTodo($index)" todo-focus="todo.editing" ng-model="todo.name">
 				</li>
 			</ul>
 		</section>
@@ -47,13 +47,13 @@
 				left</span>
 			<ul id="filters">
 				<li>
-					<a ng-class="{selected: !displayFilter}" href="#/">All</a>
+					<a ng-class="{selected: displayFilter.completed == undefined}" href="#/">All</a>
 				</li>
 				<li>
-					<a ng-class="{selected: false == displayFilter.completed}" href="#/active">Active</a>
+					<a ng-class="{selected: displayFilter.completed == false}" href="#/active">Active</a>
 				</li>
 				<li>
-					<a ng-class="{selected: displayFilter.completed}" href="#/completed">Completed</a>
+					<a ng-class="{selected: displayFilter.completed == true}" href="#/completed">Completed</a>
 				</li>
 			</ul>
 			<button id="clear-completed" ng-click="clearCompleted()" ng-show="remainingCount()">Clear completed

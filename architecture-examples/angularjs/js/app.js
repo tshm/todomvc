@@ -43,16 +43,15 @@
 		// routing handler: active/completed todo filtering
 		$scope.$location = $location;
 		$scope.$watch( '$location.path()', function( newval ) {
-			var filter;
-			if ( newval.length > 3 ) {
-				filter = {
-					completed: ( newval === '/completed' ? true : false )
-				};
+			$scope.displayFilter = {};
+			if ( newval === '/completed' ) {
+				$scope.displayFilter.completed = true;
+			} else if ( newval === '/active' ) {
+				$scope.displayFilter.completed = false;
 			}
-			$scope.displayFilter = filter;
 		});
 
-		$scope.addTodo = function() {
+		$scope.createTodo = function() {
 			$scope.todos.push({
 				name: $scope.newItem,
 				completed: false
@@ -60,50 +59,43 @@
 			$scope.newItem = '';
 		};
 
-		$scope.destroyTodo = function( index ) {
+		$scope.updateTodo = function( index ) {
+			var newname = $scope.todos[index].name;
+			if ( !newname ) {
+				$scope.deleteTodo( index );
+			} else {
+				delete $scope.todos[index].editing;
+			}
+		};
+
+		$scope.deleteTodo = function( index ) {
 			$scope.todos.splice( index, 1 );
 		};
 
-		$scope.remainingCount = function() {
+		var filterTodo = function(completed) {
 			return $filter('filter')( $scope.todos, {
-				completed: true
-			}).length;
+				completed: completed
+			});
+		};
+
+		$scope.remainingCount = function() {
+			return filterTodo( true ).length;
 		};
 
 		$scope.clearCompleted = function() {
-			$scope.todos = $filter('filter')( $scope.todos, {
-				completed: false
-			});
+			$scope.todos = filterTodo( false );
 		};
 		
 		$scope.allCompleted = function() {
-			var all = $scope.todos.length,
-				completed = $filter('filter')( $scope.todos, {
-					completed: true
-				}).length;
-			return (all > 0) && (all === completed);
+			var all = $scope.todos.length;
+			return (all > 0) && (all === filterTodo( true ).length);
 		};
 
 		$scope.toggleCompletion = function() {
 			var newval = !$scope.allCompleted();
-			angular.forEach( $scope.todos, function(todo) {
+			angular.forEach( $scope.todos, function( todo ) {
 				todo.completed = newval;
 			});
-		};
-
-		$scope.editing = function(todo) {
-			todo.editing = true;
-			$scope.$broadcast('activate');
-		};
-
-		$scope.rename = function( index ) {
-			console.log(['rename called', arguments]);
-			var newname = $scope.todos[index].name;
-			if ( !newname ) {
-				$scope.destroyTodo( index );
-			} else {
-				delete $scope.todos[index].editing;
-			}
 		};
 
 	};
