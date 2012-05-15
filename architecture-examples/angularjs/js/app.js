@@ -3,19 +3,15 @@
 
 	var angular = window.angular;
 
-	var module = angular.module('TodoApp', []);
-
-	/** custom directive for blur/keydown event handling */
-	module.directive('todoBlur', function() {
+	angular.module('TodoApp', []).directive('todoBlur', function() {
+		/** custom directive for blur/keydown event handling */
 		return function( scope, elem, attrs ) {
 			elem.bind('blur', function() {
 				scope.$apply( attrs.todoCommit );
 			});
 		};
-	});
-
-	/** custom directive to handle autofocus & select */
-	module.directive('todoFocus', function( $defer ) {
+	}).directive('todoFocus', function( $defer ) {
+		/** custom directive to handle autofocus & select */
 		return function( scope, elem, attrs ) {
 			scope.$watch( attrs.todoFocus, function( newval ) {
 				if ( newval ) {
@@ -34,15 +30,15 @@
 
 		// persist todo items in localStorage.
 		var persist = function() {
-			localStorage[storageKey] = angular.toJson($scope.todos);
+			localStorage[storageKey] = angular.toJson( $scope.todos );
 		};
 
 		// load array of todo items
-		$scope.todos = angular.fromJson(localStorage[storageKey]) || [];
+		$scope.todos = angular.fromJson( localStorage[storageKey] ) || [];
 
 		// routing handler: active/completed todo filtering
 		$scope.$location = $location;
-		$scope.$watch( '$location.path()', function( newval ) {
+		$scope.$watch('$location.path()', function( newval ) {
 			$scope.displayFilter = {};
 			if ( newval === '/completed' ) {
 				$scope.displayFilter.completed = true;
@@ -75,7 +71,7 @@
 			persist();
 		};
 
-		var filterTodo = function(completed) {
+		var filterTodo = function( completed ) {
 			return $filter('filter')( $scope.todos, {
 				completed: completed
 			});
