@@ -4,18 +4,21 @@
 	var angular = window.angular;
 
 	angular.module('TodoApp', []).directive('todoBlur', function() {
-		/** custom directive for blur/keydown event handling */
+		/** custom directive for blur event handling */
 		return function( scope, elem, attrs ) {
 			elem.bind('blur', function() {
-				scope.$apply( attrs.todoCommit );
+        // submit emitter
+        var event = document.createEvent('HTMLEvents');
+        event.initEvent('submit', true, false);
+        elem.parent('form')[0].dispatchEvent(event);
 			});
 		};
-	}).directive('todoFocus', function( $defer ) {
+	}).directive('todoFocus', function( $timeout ) {
 		/** custom directive to handle autofocus & select */
 		return function( scope, elem, attrs ) {
 			scope.$watch( attrs.todoFocus, function( newval ) {
 				if ( newval ) {
-					$defer(function() {
+					$timeout(function() {
 						elem[0].focus();
 						elem[0].select();
 					}, 0 );
